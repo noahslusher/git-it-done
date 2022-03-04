@@ -1,5 +1,23 @@
 var issueContainerEl = document.getElementById('issues-container')
 var limitWarningEl = document.getElementById('limit-warning')
+var repoNameEl = document.getElementById('repo-name')
+
+var getRepoName = function() {
+ // get repo name from url query string
+ var queryString = document.location.search;
+ // get second part of query string (After '=')
+ var repoName = queryString.split("=")[1]
+ // only display content if repoName is valid
+ if (repoName) {
+  repoNameEl.textContent = repoName
+  getRepoIssues(repoName)
+ }
+ // go back to homepage if reponame is not valid
+ else {
+  document.location.replace("./index.html")
+ }
+}
+
 
 var getRepoIssues = function(repo) {
  
@@ -20,7 +38,7 @@ var getRepoIssues = function(repo) {
    })
   }
   else {
-   alert("There was a problem with your request!")
+   document.location.replace("./index.html")
   }
  })
  
@@ -28,7 +46,6 @@ var getRepoIssues = function(repo) {
  }
 
 
-getRepoIssues('facebook/react')
 
 
 var displayIssues = function(issues) {
@@ -81,3 +98,5 @@ var displayWarning = function(repo) {
  // append to warning container
 limitWarningEl.appendChild(linkEl)
 }
+
+getRepoName()
